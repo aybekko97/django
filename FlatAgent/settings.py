@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+    'channels',
+    'channels.delay',
+    'FlatAgent',
+    'Auth',
+    'ML',
+    'Subscription'
 ]
 
 MIDDLEWARE = [
@@ -81,6 +87,28 @@ DATABASES = {
     }
 }
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+        'ROUTING': 'FlatAgent.routing.channel_routing',
+    }
+}
+
+# Redis Cache
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -120,4 +148,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
+#TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)

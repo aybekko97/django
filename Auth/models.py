@@ -12,6 +12,8 @@ class CompanyManager(models.Manager):
 
 
 class Company(models.Model):
+    class Meta:
+        verbose_name_plural = "Companies"
     class Status:
         WAITING = 0
         CONFIRMED = 1
